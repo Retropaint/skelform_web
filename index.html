@@ -47,7 +47,8 @@
                 z-index: 2;
             }
         </style>
-    <link rel="modulepreload" href="/skelform_web/SkelForm-8a1d85b205c19564.js" crossorigin="anonymous" integrity="sha384-vtJ0kZzJfNzqKKBP2sqvNAk+JiX69LXtRw65/99qX1JgJOGzQb/CGeX5kWwkuVas"><link rel="preload" href="/skelform_web/SkelForm-8a1d85b205c19564_bg.wasm" crossorigin="anonymous" integrity="sha384-A41xgCQCwO3a3ry7jIpxiI/AViF8l5cGWZXHXmwwPIbBqTPSquIh71JwVY+mslo8" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="
+        skelform_web/SkelForm-8a1d85b205c19564.js" crossorigin="anonymous" integrity="sha384-vtJ0kZzJfNzqKKBP2sqvNAk+JiX69LXtRw65/99qX1JgJOGzQb/CGeX5kWwkuVas"><link rel="preload" href="skelform_web/SkelForm-8a1d85b205c19564_bg.wasm" crossorigin="anonymous" integrity="sha384-A41xgCQCwO3a3ry7jIpxiI/AViF8l5cGWZXHXmwwPIbBqTPSquIh71JwVY+mslo8" as="fetch" type="application/wasm"></head>
 
     <body>
         <div id="file-dialog" class="file-dialog">
@@ -59,8 +60,8 @@
         <p class="resolution-message">If you see this message, please refresh this page. <br> If it persists, please adjust the browser zoom level or adjust your desktop resolution.</p>
         
 <script type="module">
-import init, * as bindings from '/skelform_web/SkelForm-8a1d85b205c19564.js';
-const wasm = await init({ module_or_path: '/skelform_web/SkelForm-8a1d85b205c19564_bg.wasm' });
+import init, * as bindings from 'skelform_web/SkelForm-8a1d85b205c19564.js';
+const wasm = await init({ module_or_path: 'skelform_web/SkelForm-8a1d85b205c19564_bg.wasm' });
 
 
 window.wasmBindings = bindings;
@@ -75,7 +76,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
         <img src="" id="last-image" />
 
-        <img src="/skelform_web/anim_icons.png" id="img-anim-icons"/>
+        <img src="skelform_web/anim_icons.png" id="img-anim-icons"/>
 
         <script>
             var img = document.getElementById("last-image");
