@@ -81,7 +81,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="/skelform_web/SkelForm.js" crossorigin="anonymous" integrity="sha384-6GRcBWvMFv461g460yET2W9oF8rc1QGCCoekbjJ4w+/keDZ8j/dHcQGjxAc3pzYE"><link rel="preload" href="/skelform_web/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-2loKG56NyYS3chQoRFmRfH/9WTTh6to0t0F3OiS4kS5J3E5C7L2NJ52q4pxDJ285" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/skelform_web/SkelForm.js" crossorigin="anonymous" integrity="sha384-Iq0CO6HlPBYqjVXbRC0JGGDrfE7fMsaT933TkVUX1+SZUfjt29H97wmnGT/Nn1Ah"><link rel="preload" href="/skelform_web/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-Bah4aTNcB6cDu90KCw2kCqFsGapL5YrwBAhgKutjLxKx3/Y3Uc5U8u0kplHk3fgh" as="fetch" type="application/wasm"></head>
 
     <body>
         <div id="image-dialog" class="file-dialog">
@@ -209,6 +209,13 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 const canvas = document.getElementById("canvas");
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
+            }
+
+            function getCanvasWidth() {
+                return canvas.width;
+            }
+            function getCanvasHeight() {
+                return canvas.height;
             }
 
             function loaded() {
