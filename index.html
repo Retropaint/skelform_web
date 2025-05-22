@@ -81,7 +81,12 @@
                 }
             }
         </style>
+<<<<<<< HEAD
     <link rel="modulepreload" href="/SkelForm.js" crossorigin="anonymous" integrity="sha384-wnsI2WodZZcNO7/StV8/4rBtLszD32dObn7zvhCQOQXiA8vN7Qi/nrtz8rpKgnQM"><link rel="preload" href="/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-XXqqiBlPX3CfM7MVwFbL7aQ7jeph2CFXxJ990zxI7/ys1mKMcYXyQ/RFVNhWNGCu" as="fetch" type="application/wasm"></head>
+=======
+    <link rel="modulepreload" href="
+        skelform_web/SkelForm-8a1d85b205c19564.js" crossorigin="anonymous" integrity="sha384-vtJ0kZzJfNzqKKBP2sqvNAk+JiX69LXtRw65/99qX1JgJOGzQb/CGeX5kWwkuVas"><link rel="preload" href="skelform_web/SkelForm-8a1d85b205c19564_bg.wasm" crossorigin="anonymous" integrity="sha384-A41xgCQCwO3a3ry7jIpxiI/AViF8l5cGWZXHXmwwPIbBqTPSquIh71JwVY+mslo8" as="fetch" type="application/wasm"></head>
+>>>>>>> b336f77a7cbce7379e707955379b8a22612d104d
 
     <body>
         <div id="image-dialog" class="file-dialog">
@@ -137,8 +142,13 @@
 
         
 <script type="module">
+<<<<<<< HEAD
 import init, * as bindings from '/SkelForm.js';
 const wasm = await init({ module_or_path: '/SkelForm_bg.wasm' });
+=======
+import init, * as bindings from 'skelform_web/SkelForm-8a1d85b205c19564.js';
+const wasm = await init({ module_or_path: 'skelform_web/SkelForm-8a1d85b205c19564_bg.wasm' });
+>>>>>>> b336f77a7cbce7379e707955379b8a22612d104d
 
 
 window.wasmBindings = bindings;
@@ -155,6 +165,7 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
         <img src="" id="last-image" />
 
+<<<<<<< HEAD
         <img src="anim_icons.png" id="img-anim-icons" />
 
         <script type="module">
@@ -162,6 +173,9 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             import * as bindings from "/SkelForm.js";
             window.wasmBindings = bindings;
         </script>
+=======
+        <img src="skelform_web/anim_icons.png" id="img-anim-icons"/>
+>>>>>>> b336f77a7cbce7379e707955379b8a22612d104d
 
         <script>
             let fileData = [];
