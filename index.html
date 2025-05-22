@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Rust/Wgpu</title>
-        <base href="/" />
+        <base href="/skelform_web/" />
         <style type="text/css">
             :root {
                 --color-accent: rgb(65, 46, 105);
@@ -81,7 +81,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="/SkelForm.js" crossorigin="anonymous" integrity="sha384-wnsI2WodZZcNO7/StV8/4rBtLszD32dObn7zvhCQOQXiA8vN7Qi/nrtz8rpKgnQM"><link rel="preload" href="/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-XXqqiBlPX3CfM7MVwFbL7aQ7jeph2CFXxJ990zxI7/ys1mKMcYXyQ/RFVNhWNGCu" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/skelform_web/SkelForm.js" crossorigin="anonymous" integrity="sha384-6GRcBWvMFv461g460yET2W9oF8rc1QGCCoekbjJ4w+/keDZ8j/dHcQGjxAc3pzYE"><link rel="preload" href="/skelform_web/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-h33Wf8/uE9Ay+xfV9CQcVFpyyvaEKCYLXpG8E+TM/zprGiPKGCXMaBGZ9p5R5sbj" as="fetch" type="application/wasm"></head>
 
     <body>
         <div id="image-dialog" class="file-dialog">
@@ -137,8 +137,8 @@
 
         
 <script type="module">
-import init, * as bindings from '/SkelForm.js';
-const wasm = await init({ module_or_path: '/SkelForm_bg.wasm' });
+import init, * as bindings from '/skelform_web/SkelForm.js';
+const wasm = await init({ module_or_path: '/skelform_web/SkelForm_bg.wasm' });
 
 
 window.wasmBindings = bindings;
