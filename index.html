@@ -6,6 +6,11 @@
         <title>Rust/Wgpu</title>
         <base href="/" />
         <style type="text/css">
+            :root {
+                --color-accent: rgb(65, 46, 105);
+                --color-border: rgb(44, 36, 64);
+                font-family: Arial;
+            }
             :focus {
                 outline: none;
             }
@@ -25,6 +30,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                background: #2d2c2c;
             }
 
             .main-canvas {
@@ -33,34 +39,106 @@
             }
 
             .resolution-message {
+                display: flex;
+                justify-content: center;
+                height: 100%;
+                align-items: center;
                 position: absolute;
+                width: 100%;
                 z-index: 0;
-                margin-left: 20px;
+                color: #d6d6d6;
+                text-align: center;
             }
 
             .file-dialog {
-                position: absolute; 
-                width: 100%; 
-                height: 100%; 
-                background: rgb(0, 0, 0, 0.25); 
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: rgb(0, 0, 0, 0.25);
                 visibility: hidden;
                 z-index: 2;
+
+                .container {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                }
+
+                .button {
+                    color: #d6d6d6;
+                    background: var(--color-accent);
+                    padding: 5px;
+                    border: 2px solid var(--color-border);
+                    cursor: pointer;
+                }
+
+                input {
+                    display: none;
+                }
             }
         </style>
-    <link rel="modulepreload" href="/skelform_web/SkelForm-8a1d85b205c19564.js" crossorigin="anonymous" integrity="sha384-vtJ0kZzJfNzqKKBP2sqvNAk+JiX69LXtRw65/99qX1JgJOGzQb/CGeX5kWwkuVas"><link rel="preload" href="/skelform_web/SkelForm-8a1d85b205c19564_bg.wasm" crossorigin="anonymous" integrity="sha384-A41xgCQCwO3a3ry7jIpxiI/AViF8l5cGWZXHXmwwPIbBqTPSquIh71JwVY+mslo8" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/SkelForm.js" crossorigin="anonymous" integrity="sha384-wnsI2WodZZcNO7/StV8/4rBtLszD32dObn7zvhCQOQXiA8vN7Qi/nrtz8rpKgnQM"><link rel="preload" href="/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-XXqqiBlPX3CfM7MVwFbL7aQ7jeph2CFXxJ990zxI7/ys1mKMcYXyQ/RFVNhWNGCu" as="fetch" type="application/wasm"></head>
 
     <body>
-        <div id="file-dialog" class="file-dialog">
-            <div style="position: absolute; top: 50%; left: 50%">
-                <input type="file" accept="image/jpeg, image/png" onchange="toggleFileDialog(false); loadImage(event)"/>
+        <div id="image-dialog" class="file-dialog">
+            <div class="container">
+                <input
+                    onchange="toggleFileDialog(false, 'image-dialog'); loadImage(event)"
+                    type="file"
+                    accept=".png"
+                    id="img-input"
+                />
+                <label class="button" for="img-input">Upload Image</label>
+                <label
+                    class="button"
+                    onclick="toggleFileDialog(false, 'image-dialog')"
+                    title="test"
+                    >Cancel</label
+                >
             </div>
         </div>
 
-        <p class="resolution-message">If you see this message, please refresh this page. <br> If it persists, please adjust the browser zoom level or adjust your desktop resolution.</p>
+        <div id="file-dialog" class="file-dialog">
+            <div class="container">
+                <input
+                    type="file"
+                    onchange="toggleFileDialog(false, 'file-dialog'); loadFile(event)"
+                    id="file-input"
+                />
+                <label class="button" for="file-input">Upload File</label>
+                <label
+                    class="button"
+                    onclick="toggleFileDialog(false, 'file-dialog')"
+                    >Cancel</label
+                >
+            </div>
+        </div>
+
+        <div
+            id="resolution-message"
+            class="resolution-message"
+            style="visibility: hidden"
+        >
+            <p>
+                If you see this message, SkelForm has not loaded properly.
+                <br />
+                <br />
+                <b>Please refresh the page.</b>
+                <br />
+                <br />
+                If this persists, please adjust the browser zoom level or
+                desktop resolution.
+            </p>
+        </div>
+
         
 <script type="module">
-import init, * as bindings from '/skelform_web/SkelForm-8a1d85b205c19564.js';
-const wasm = await init({ module_or_path: '/skelform_web/SkelForm-8a1d85b205c19564_bg.wasm' });
+import init, * as bindings from '/SkelForm.js';
+const wasm = await init({ module_or_path: '/SkelForm_bg.wasm' });
 
 
 window.wasmBindings = bindings;
@@ -73,165 +151,92 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
             <canvas class="main-canvas" id="canvas"></canvas>
         </div>
 
+        <form></form>
+
         <img src="" id="last-image" />
 
-        <img src="anim_icons.png" id="img-anim-icons"/>
+        <img src="anim_icons.png" id="img-anim-icons" />
+
+        <script type="module">
+            // unused for now
+            import * as bindings from "/SkelForm.js";
+            window.wasmBindings = bindings;
+        </script>
 
         <script>
-            var img = document.getElementById("last-image");
-            function toggleFileDialog(open) {
+            let fileData = [];
+            let imgName = "";
+            let hasLoaded = false;
+
+            function toggleFileDialog(open, id) {
                 let str = open ? "visible" : "hidden";
-                document.getElementById("file-dialog").style.visibility = str;
+                document.getElementById(id).style.visibility = str;
             }
 
             function loadImage(event) {
                 var reader = new FileReader();
-                reader.onload = function(event) {
+                reader.readAsDataURL(event.target.files[0]);
+                imgName = event.target.files[0].name;
+                reader.onload = function (event) {
+                    let img = document.getElementById("last-image");
                     img.src = event.target.result;
                 };
-                reader.readAsDataURL(event.target.files[0]);
+            }
+
+            async function loadFile(event) {
+                const file = event.target.files[0];
+                const arrayBuffer = await file.arrayBuffer();
+                fileData = new Uint8Array(arrayBuffer);
+            }
+
+            function getFile() {
+                return fileData;
+            }
+
+            function getImgName() {
+                return imgName;
+            }
+
+            function removeFile() {
+                fileData = [];
             }
 
             function removeImage() {
-                img.src = "";               
+                document.getElementById("last-image").src = "";
             }
-        
+
             function resizeCanvas() {
                 const canvas = document.getElementById("canvas");
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             }
+
+            function loaded() {
+                if (!hasLoaded) {
+                    document.getElementById(
+                        "resolution-message",
+                    ).style.visibility = "visible";
+                    hasLoaded = true;
+                }
+            }
+
+            function downloadZip(binary) {
+                var link = document.createElement("a");
+                link.href = window.URL.createObjectURL(
+                    new Blob([binary], { type: "zip;charset=utf-8;" }),
+                );
+                link.setAttribute("test", "sk_a");
+                link.setAttribute("download", "SkelForm_armature.zip");
+                link.click();
+                link.remove();
+            }
+
             window.addEventListener("resize", resizeCanvas);
             window.addEventListener("load", resizeCanvas);
-        </script>
-    <script>"use strict";
 
-(function () {
-
-    const address = '{{__TRUNK_ADDRESS__}}';
-    const base = '{{__TRUNK_WS_BASE__}}';
-    let protocol = '';
-    protocol =
-        protocol
-            ? protocol
-            : window.location.protocol === 'https:'
-                ? 'wss'
-                : 'ws';
-    const url = protocol + '://' + address + base + '.well-known/trunk/ws';
-
-    class Overlay {
-        constructor() {
-            // create an overlay
-            this._overlay = document.createElement("div");
-            const style = this._overlay.style;
-            style.height = "100vh";
-            style.width = "100vw";
-            style.position = "fixed";
-            style.top = "0";
-            style.left = "0";
-            style.backgroundColor = "rgba(222, 222, 222, 0.5)";
-            style.fontFamily = "sans-serif";
-            // not sure that's the right approach
-            style.zIndex = "1000000";
-            style.backdropFilter = "blur(1rem)";
-
-            const container = document.createElement("div");
-            // center it
-            container.style.position = "absolute";
-            container.style.top = "30%";
-            container.style.left = "15%";
-            container.style.maxWidth = "85%";
-
-            this._title = document.createElement("div");
-            this._title.innerText = "Build failure";
-            this._title.style.paddingBottom = "2rem";
-            this._title.style.fontSize = "2.5rem";
-
-            this._message = document.createElement("div");
-            this._message.style.whiteSpace = "pre-wrap";
-
-            const icon= document.createElement("div");
-            icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#dc3545" viewBox="0 0 16 16"><path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>';
-            this._title.prepend(icon);
-
-            container.append(this._title, this._message);
-            this._overlay.append(container);
-
-            this._inject();
-            window.setInterval(() => {
-                this._inject();
-            }, 250);
-        }
-
-        set reason(reason) {
-            this._message.textContent = reason;
-        }
-
-        _inject() {
-            if (!this._overlay.isConnected) {
-                // prepend it
-                document.body?.prepend(this._overlay);
-            }
-        }
-
-    }
-
-    class Client {
-        constructor(url) {
-            this.url = url;
-            this.poll_interval = 5000;
-            this._overlay = null;
-        }
-
-        start() {
-            const ws = new WebSocket(this.url);
-            ws.onmessage = (ev) => {
-                const msg = JSON.parse(ev.data);
-                switch (msg.type) {
-                    case "reload":
-                        this.reload();
-                        break;
-                    case "buildFailure":
-                        this.buildFailure(msg.data)
-                        break;
-                }
+            window.onbeforeunload = function () {
+                return "";
             };
-            ws.onclose = () => this.onclose();
-        }
-
-        onclose() {
-            window.setTimeout(
-                () => {
-                    // when we successfully reconnect, we'll force a
-                    // reload (since we presumably lost connection to
-                    // trunk due to it being killed, so it will have
-                    // rebuilt on restart)
-                    const ws = new WebSocket(this.url);
-                    ws.onopen = () => window.location.reload();
-                    ws.onclose = () => this.onclose();
-                },
-                this.poll_interval);
-        }
-
-        reload() {
-            window.location.reload();
-        }
-
-        buildFailure({reason}) {
-            // also log the console
-            console.error("Build failed:", reason);
-
-            console.debug("Overlay", this._overlay);
-
-            if (!this._overlay) {
-                this._overlay = new Overlay();
-            }
-            this._overlay.reason = reason;
-        }
-    }
-
-    new Client(url).start();
-
-})()
-</script></body>
+        </script>
+    </body>
 </html>
