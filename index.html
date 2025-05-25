@@ -111,7 +111,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="/skelform_web/SkelForm.js" crossorigin="anonymous" integrity="sha384-847HeXwGZ6L6YHG2N51vI1oQSXSPi9IZ1+x6uuIUFoSO4NyFu28vt8xva0ORwZKb"><link rel="preload" href="/skelform_web/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-HDWhbbtbzvCVS7I5omjesJYS/3uDpVu3bx3pRDSI66gL1ogAU+osUDN9GBVY9bLd" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/skelform_web/SkelForm.js" crossorigin="anonymous" integrity="sha384-qgqx/e6VYeTGbqys83E9X3ImJT5UzaH2O0L9AfEGE+1kAi9PuSoEn2M+DWZNu6oR"><link rel="preload" href="/skelform_web/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-CeyQ4jjSSqpoNSGMOEUduqHsZYp0sjwOjm1SSiUsmRR+oxONDZ/u47Uk3p7H9hwK" as="fetch" type="application/wasm"></head>
 
     <body>
         <div id="image-dialog" class="file-dialog">
@@ -206,12 +206,6 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
         <img src="anim_icons.png" id="img-anim-icons" />
 
-        <script type="module">
-            // unused for now
-            import * as bindings from "/SkelForm.js";
-            window.wasmBindings = bindings;
-        </script>
-
         <script>
             let fileData = [];
             let imgName = "";
@@ -275,8 +269,8 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 const canvas = document.getElementById("canvas");
 
                 if(window.innerWidth < 1920) {
-                    canvas.width = window.innerWidth * 3;
-                    canvas.height = window.innerHeight * 3;
+                    canvas.width = window.innerWidth * 1.5;
+                    canvas.height = window.innerHeight * 1.5;
                     canvas.style.transform = "scale(" + 
                         (window.innerWidth / canvas.width) + ", " + 
                         (window.innerHeight / canvas.height) + ")";
