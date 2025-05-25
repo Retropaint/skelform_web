@@ -206,12 +206,6 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
         <img src="anim_icons.png" id="img-anim-icons" />
 
-        <script type="module">
-            // unused for now
-            import * as bindings from "/SkelForm.js";
-            window.wasmBindings = bindings;
-        </script>
-
         <script>
             let fileData = [];
             let imgName = "";
@@ -275,8 +269,8 @@ dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
                 const canvas = document.getElementById("canvas");
 
                 if(window.innerWidth < 1920) {
-                    canvas.width = window.innerWidth * 3;
-                    canvas.height = window.innerHeight * 3;
+                    canvas.width = window.innerWidth * 1.5;
+                    canvas.height = window.innerHeight * 1.5;
                     canvas.style.transform = "scale(" + 
                         (window.innerWidth / canvas.width) + ", " + 
                         (window.innerHeight / canvas.height) + ")";
