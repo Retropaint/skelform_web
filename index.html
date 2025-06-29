@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>SkelForm Editor</title>
-        <base href="/" />
+        <base href="/skelform_web/" />
         <style type="text/css">
             :root {
                 --color-main: rgb(32, 25, 46);
@@ -90,7 +90,7 @@
                 }
             }
         </style>
-    <link rel="modulepreload" href="/SkelForm.js" crossorigin="anonymous" integrity="sha384-yHJDwZo3j+ON0Z5V45FhQmP2M6dr7xhKXUFrRmTCSO27tgLoCyJES3THP8BWeJ/G"><link rel="preload" href="/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-Av62F/I4Ym3epq1PCV5wjxzDMkOh8mv6yyFajtMDV5PZQ0tdYmO3IhSa8/nkpsck" as="fetch" type="application/wasm"></head>
+    <link rel="modulepreload" href="/skelform_web/SkelForm.js" crossorigin="anonymous" integrity="sha384-PktNfHDH7xTI0HZbZCCG4liTAJTRNhmOfxtdGlfed+51y7uVtLQ4LdEd2B1GUtvJ"><link rel="preload" href="/skelform_web/SkelForm_bg.wasm" crossorigin="anonymous" integrity="sha384-/+ytxyn9egQxWRB3hVV5GjF9djpa3Pehkjv/7pBuppxXl2onIc3v7Lc+MJOaNhn/" as="fetch" type="application/wasm"></head>
 
     <body>
         <div id="image-dialog" class="modal file-dialog" style="visibility: hidden">
@@ -163,8 +163,8 @@
 
         
 <script type="module">
-import init, * as bindings from '/SkelForm.js';
-const wasm = await init({ module_or_path: '/SkelForm_bg.wasm' });
+import init, * as bindings from '/skelform_web/SkelForm.js';
+const wasm = await init({ module_or_path: '/skelform_web/SkelForm_bg.wasm' });
 
 
 window.wasmBindings = bindings;
